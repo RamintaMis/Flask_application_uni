@@ -84,17 +84,21 @@
       <DataType>VARCHAR(100)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="24" parent="8" name="sqlite_autoindex_users_1">
+    <column id="24" parent="8" name="postkey">
+      <Position>4</Position>
+      <DataType>BLOB|0s</DataType>
+    </column>
+    <index id="25" parent="8" name="sqlite_autoindex_users_1">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>username</ColNames>
       <ColumnCollations></ColumnCollations>
       <Unique>1</Unique>
     </index>
-    <key id="25" parent="8">
+    <key id="26" parent="8">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="26" parent="8">
+    <key id="27" parent="8">
       <ColNames>username</ColNames>
       <UnderlyingIndexName>sqlite_autoindex_users_1</UnderlyingIndexName>
     </key>

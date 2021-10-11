@@ -10,6 +10,11 @@ from app import db
 def encrypt(data, postkey):
     return Fernet(postkey).encrypt(bytes(data, 'utf-8'))
 
+
+def decrypt(data, postkey):
+    return Fernet(postkey).decrypt(data).decode("utf-8")
+
+
 class User(db.Model):
     __tablename__ = 'users'
 
@@ -47,6 +52,10 @@ class Post(db.Model):
         self.title = encrypt(title, postkey)
         self.body = encrypt(body, postkey)
         db.session.commit()
+
+    def view_post(self, postkey):
+        self.title = decrypt(self.title, postkey)
+        self.body = decrypt(self.body, postkey)
 
 
 def init_db():

@@ -14,6 +14,10 @@ postkey = user.postkey
 @blog_blueprint.route('/blog')
 def blog():
     posts = Post.query.order_by(desc('id')).all()
+
+    for p in posts:
+        p.view_post(postkey)
+
     return render_template('blog.html', posts=posts)
 
 
@@ -43,6 +47,8 @@ def update(id):
         post.update_post(form.title.data, form.body.data, postkey)
 
         return blog()
+
+    post.view_post(postkey)
 
     form.title.data = post.title
     form.body.data = post.body
