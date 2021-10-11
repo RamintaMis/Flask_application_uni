@@ -1,4 +1,8 @@
+import base64
 from datetime import datetime
+from Crypto.Protocol.KDF import scrypt
+from Crypto.Random import get_random_bytes
+from werkzeug.security import generate_password_hash
 from app import db
 
 
@@ -9,11 +13,15 @@ class User(db.Model):
     username = db.Column(db.String(100), nullable=False, unique=True)
     password = db.Column(db.String(100), nullable=False)
 
+    # crypto key for user's posts
+    postkey = db.Column(db.BLOB)
+
     blogs = db.relationship('Post')
 
     def __init__(self, username, password):
         self.username = username
-        self.password = password
+        self.password = generate_password_hash(password)
+        self.postkey = base64.urlsafe_b64encode(scrypt(password, str(get_random_bytes(32)), 32, N=2 ** 14, r=8, p=1))
 
 
 class Post(db.Model):
