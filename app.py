@@ -28,6 +28,17 @@ if __name__ == '__main__':
     free_port = free_socket.getsockname()[1]
     free_socket.close()
 
+
+    login_manager = LoginManager()
+    login_manager.login_view = 'users.login'
+    login_manager.init_app(app)
+
+    from models import User
+
+    @login_manager.user_loader
+    def load_user(id):
+        return User.query.get(int(id))
+
     # blueprints
     from users.views import users_blueprint
     from blog.views import blog_blueprint
